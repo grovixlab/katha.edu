@@ -82,12 +82,12 @@ router.get('/register', isAuthorised, (req, res) => {
 
 router.post('/register', isAuthorised, async (req, res) => {
     const { studentName, registerNumber, standard, division } = req.body;
-    
+
     let member = await Member.findOne({ registerNumber: registerNumber }).lean();
     if (member) {
         return res.render('member-register', { title: "Register Member", error: { message: 'Member already registered.' } });
     }
-    
+
     const memberId = await generateUniqueId();
 
     try {
@@ -95,7 +95,7 @@ router.post('/register', isAuthorised, async (req, res) => {
         const doc = new PDFDocument();
         const member = new Member({ studentName, registerNumber, standard, division, memberId: memberId });
         await member.save();
-        
+
 
         // Generate QR code 
         const qrData = JSON.stringify({ memberId, studentName, registerNumber, standard, division });
@@ -120,6 +120,97 @@ router.post('/register', isAuthorised, async (req, res) => {
         res.status(500).send('Server Error');
     }
 });
+
+// Member Editing Route
+router.get('/edit/:memberId', async (req, res) => {
+    try {
+        // Find the member by memberId
+        const member = await Member.findOne({ memberId: req.params.memberId }).lean();
+
+        // If no member is found, render with an error message
+        if (!member) {
+            return res.render('member-edit', { title: "Edit Member", error: { message: 'Member not found' } });
+        }
+
+        // Render the member edit form with the member details
+        res.render('member-edit', { title: "Edit Member", member });
+    } catch (err) {
+        // Log and display any errors that occur
+        console.log('Error retrieving member:', err);
+        res.render('member-edit', { title: "Edit Member", error: { message: 'Internal server error' } });
+    }
+});
+
+// Member Update Route
+router.post('/update/', async (req, res) => {
+    try {
+        const { memberId, studentName, registerNumber, standard, division } = req.body;
+
+        // Ensure all required fields are present
+        if (!memberId || !studentName || !registerNumber || !standard || !division) {
+            return res.render('member-edit', {
+                title: "Edit Member",
+                error: { message: 'All fields are required' },
+                member: req.body // Retain input values
+            });
+        }
+
+        // Perform the update operation
+        const result = await Member.updateOne(
+            { memberId },
+            { $set: { studentName, registerNumber, standard, division } }
+        );
+
+        // Check if the update was successful
+        if (result.nModified === 0) {
+            return res.render('member-edit', {
+                title: "Edit Member",
+                error: { message: 'Update failed or no changes made' },
+                member: req.body // Retain input values
+            });
+        }
+
+        // Render the member edit form with a success message
+        res.redirect('/members/')
+    } catch (err) {
+        // Log and handle any errors that occur
+        console.log('Error updating member:', err);
+        res.render('member-edit', {
+            title: "Edit Member",
+            error: { message: 'Internal server error' },
+            member: req.body // Retain input values
+        });
+    }
+});
+
+// Member Deleting Route
+router.delete('/delete/:memberId', async (req, res) => {
+    try {
+        // Ensure memberId is provided
+        if (!req.params.memberId) {
+            return res.status(400).json({ message: 'Member ID is required' });
+        }
+
+        // Attempt to delete the member by memberId
+        const result = await Member.deleteOne({ memberId: req.params.memberId });
+
+        // Check if any document was deleted
+        if (result.deletedCount === 0) {
+            return res.status(404).json({ message: 'Member not found' });
+        }
+
+        // Respond with success message if deletion is successful
+        res.status(200).json({ message: 'Member deleted successfully' });
+    } catch (err) {
+        // Log and handle any errors that occur
+        console.log('Error deleting member:', err);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+
+
+
 
 // Fetch Member by ID
 router.get('/api/member/:id', async (req, res) => {

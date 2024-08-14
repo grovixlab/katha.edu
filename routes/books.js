@@ -63,7 +63,7 @@ router.post('/add', async (req, res) => {
         const newBook = new Book({ bookName, bookId, author: bookAuthor });
         await newBook.save();
         res.redirect('/books/add');
-        
+
     } catch (err) {
 
         console.log(err);
@@ -71,6 +71,90 @@ router.post('/add', async (req, res) => {
 
     }
 });
+
+// Book Editing Route
+router.get('/edit/:bookId', async (req, res) => {
+    try {
+        // Find the book by bookId
+        const book = await Book.findOne({ bookId: req.params.bookId }).lean();
+
+        // If no book is found, render with an error message
+        if (!book) {
+            return res.render('book-edit', { title: "Edit Book", error: { message: 'Book not found' } });
+        }
+
+        // Render the book edit form with the book details
+        res.render('book-edit', { title: "Edit Book", book });
+    } catch (err) {
+        // Log and display any errors that occur
+        console.log('Error retrieving book:', err);
+        res.render('book-edit', { title: "Edit Book", error: { message: 'Internal server error' } });
+    }
+});
+
+// Book Update Route
+router.post('/update/', async (req, res) => {
+    try {
+        const { bookId, bookName, author } = req.body;
+        // Find the book by bookId
+        const book = await Book.findOne({ bookId: bookId }).lean();
+
+
+        // Ensure all required fields are present
+        if (!bookId || !bookName || !author) {
+            return res.render('book-edit', { title: "Edit Book", book: req.body, error: { message: 'All fields are required' } });
+        }
+
+        // Perform the update operation
+        const result = await Book.updateOne(
+            { bookId },
+            { $set: { bookName, author } }
+        );
+
+        // Check if the update was successful
+        if (result.nModified === 0) {
+            return res.render('book-edit', { title: "Edit Book", book: req.body, error: { message: 'Update failed or no changes made' } });
+        }
+
+        // Redirect to the books list on successful update
+        res.redirect('/books/');
+    } catch (err) {
+        // Log and handle any errors that occur
+        console.log('Error updating book:', err);
+        res.render('book-edit', {
+            title: "Edit Book",
+            error: { message: 'Internal server error' },
+            book: req.body // Retain input values
+        });
+    }
+});
+
+// Book Deleting Route
+router.delete('/delete/:bookId', async (req, res) => {
+    try {
+        // Ensure bookId is provided
+        if (!req.params.bookId) {
+            return res.status(400).json({ message: 'Book ID is required' });
+        }
+
+        // Attempt to delete the book by bookId
+        const result = await Book.deleteOne({ bookId: req.params.bookId });
+
+        // Check if any document was deleted
+        if (result.deletedCount === 0) {
+            return res.status(404).json({ message: 'Book not found' });
+        }
+
+        // Respond with success message if deletion is successful
+        res.status(200).json({ message: 'Book deleted successfully' });
+    } catch (err) {
+        // Log and handle any errors that occur
+        console.log('Error deleting book:', err);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+
 
 
 // Fetch Book by ID
