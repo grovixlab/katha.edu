@@ -1,0 +1,137 @@
+<div class="container">
+    <h1>History</h1>
+
+    <!-- Navigation Buttons -->
+    <div class="history-buttons">
+        <a href="/history/overdue" class="button">Overdue Books</a>
+        <a href="/history/taken" class="button">Books Taken</a>
+        <a href="/history/returned" class="button">Books Returned</a>
+    </div>
+
+    <h2>Overdue Books</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Book Name</th>
+                <th>Member Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each overdueBooks}}
+            <tr class="overdue">
+                <td>{{this.bookName}} ({{this.bookId}})</td>
+                <td>{{this.studentName}} ({{this.memberId}})</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+    <h2>Books Taken</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Book Name</th>
+                <th>Member Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each booksTaken}}
+            <tr class="taken">
+                <td>{{this.bookName}} ({{this.bookId}})</td>
+                <td>{{this.studentName}} ({{this.memberId}})</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+    <h2>Books Returned</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Book Name</th>
+                <th>Member Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each booksReturned}}
+            <tr class="returned">
+                <td>{{this.bookName}} ({{this.bookId}})</td>
+                <td>{{this.studentName}} ({{this.memberId}})</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+
+<style>
+    .container {
+        padding: 20px;
+        margin: auto;
+        width: 80%;
+        border-radius: 5px;
+    }
+
+    h1 {
+        text-align: left;
+    }
+
+    h2 {
+        color: #000;
+        margin-top: 20px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+    table,
+    th,
+    td {
+        border: 1px solid #ddd;
+    }
+
+    th,
+    td {
+        padding: 10px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #005bb5;
+        color: white;
+    }
+
+    .overdue td {
+        color: #005bb5;
+    }
+
+    .taken td {
+        color: black;
+    }
+
+    .returned td {
+        color: green;
+    }
+
+    /* History buttons styles */
+    .history-buttons {
+        margin-bottom: 20px;
+        text-align: left;
+    }
+
+    .history-buttons .button {
+        background-color: #005bb5;
+        color: white;
+        padding: 10px 15px;
+        text-decoration: none;
+        border-radius: 4px;
+        margin-right: 10px;
+        font-size: 16px;
+    }
+
+    .history-buttons .button:hover {
+        background-color: #005bb5;
+    }
+</style>

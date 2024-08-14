@@ -1,0 +1,137 @@
+<div class="container">
+    <h1>Register Book Taking</h1>
+    <form action="/history/take" method="POST">
+        <div class="input-group">
+            <label for="memberId">Member ID</label>
+            <input type="text" id="memberId" name="memberId" required>
+        </div>
+        <div class="input-group">
+            <label for="studentName">Member Name</label>
+            <input type="text" id="studentName" readonly name="studentName" required>
+        </div>
+        <div class="input-group">
+            <label for="bookId">Book ID</label>
+            <input type="text" id="bookId" name="bookId" required>
+        </div>
+        <div class="input-group">
+            <label for="bookName">Book Name</label>
+            <input type="text" id="bookName" readonly name="bookName" required>
+        </div>
+        {{#if error}}
+        <div class="error-message">{{error.message}}</div>
+        {{/if}}
+        <button type="submit" class="button">Take Book</button>
+    </form>
+</div>
+<style>
+    /* Container styles */
+    .container {
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        border-radius: 8px;
+    }
+
+    .container h1 {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 24px;
+        color: #333;
+    }
+
+    /* Form styles */
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Input group styles */
+    .input-group {
+        margin-bottom: 15px;
+    }
+
+    .input-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 16px;
+        color: #555;
+    }
+
+    .input-group input,
+    .input-group select {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    .input-group input:focus,
+    .input-group select:focus {
+        border-color: red;
+        outline: none;
+    }
+
+    /* Button styles */
+    .button {
+        background-color: red;
+        color: #fff;
+        border: none;
+        padding: 15px;
+        font-size: 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .button:hover {
+        background-color: #005bb5;
+    }
+</style>
+<script>
+    document.getElementById('bookId').addEventListener('input', function () {
+        var bookId = this.value;
+
+        if (bookId) {
+            fetch(`/books/api/book/${bookId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data && data.bookName) {
+                        document.getElementById('bookName').value = data.bookName;
+                    } else {
+                        document.getElementById('bookName').value = '';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching book name:', error);
+                    document.getElementById('bookName').value = '';
+                });
+        } else {
+            document.getElementById('bookName').value = '';
+        }
+    });
+
+    document.getElementById('memberId').addEventListener('input', function () {
+        var memberId = this.value;
+
+        if (memberId) {
+            fetch(`/members/api/member/${memberId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data && data.studentName) {
+                        document.getElementById('studentName').value = data.studentName;
+                    } else {
+                        document.getElementById('studentName').value = '';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching member name:', error);
+                    document.getElementById('studentName').value = '';
+                });
+        } else {
+            document.getElementById('studentName').value = '';
+        }
+    });
+</script>

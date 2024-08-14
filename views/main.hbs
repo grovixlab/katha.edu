@@ -1,0 +1,103 @@
+<div class="btbnContainer">
+    <div class="buttons">
+        <a href="/history/borrow" class="button-link">
+            <button class="button">
+                <img class="button-img" src="/img/button/borrow.png" alt="Borrow">
+            </button>
+        </a>
+        <a href="/history/return" class="button-link">
+            <button class="button">
+                <img class="button-img" src="/img/button/return.png" alt="Return">
+            </button>
+        </a>
+        <a href="/members/register" class="button-link">
+            <button class="button">
+                <img class="button-img" src="/img/button/addmember.png" alt="Add Member">
+            </button>
+        </a>
+        <a href="/books/add" class="button-link">
+            <button class="button">
+                <img class="button-img" src="/img/button/addbook.png" alt="Add Book">
+            </button>
+        </a>
+        <a href="/download-id" class="button-link">
+            <button class="button">
+                <img class="button-img" src="/img/button/downid.png" alt="Download ID">
+            </button>
+        </a>
+        <a href="/download-stamp" class="button-link">
+            <button class="button">
+                <img class="button-img" src="/img/button/downstamp.png" alt="Download Stamp">
+            </button>
+        </a>
+    </div>
+</div>
+
+<style>
+    /* Container styles */
+    .btbnContainer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        width: 100vw;
+    }
+
+    /* Grid container */
+    .buttons {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        /* Ensures buttons have a minimum width of 160px */
+        gap: 10px;
+        /* Space between buttons */
+        width: 100%;
+        max-width: 90%;
+    }
+
+    /* Button link styles */
+    .button-link {
+        text-decoration: none;
+    }
+
+    /* Button styles */
+    .button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid;
+        background-color: transparent;
+        padding: 10px;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+        height: 160px;
+        /* Ensures buttons are square (height matches width) */
+        width: 100%;
+    }
+
+    /* Button image styles */
+    .button-img {
+        max-width: 100%;
+        /* Ensure image scales within the button */
+        max-height: 100%;
+        object-fit: contain;
+        /* Ensure image maintains aspect ratio within the button */
+    }
+
+    /* Button hover effect */
+    .button:hover {
+        transform: scale(1.1);
+    }
+
+    /* Responsive behavior */
+    @media (max-width: 600px) {
+        .buttons {
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            /* Adjust grid for smaller screens */
+        }
+
+        .button {
+            height: 80px;
+            /* Adjust height to match the reduced width on smaller screens */
+        }
+    }
+</style>

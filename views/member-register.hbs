@@ -1,0 +1,111 @@
+<div class="container">
+    <h1>Register a Member</h1>
+    <form action="/members/register" method="POST">
+        <div class="input-group">
+            <label for="studentName">Member Name</label>
+            <input type="text" id="studentName" name="studentName" required>
+        </div>
+        <div class="input-group">
+            <label for="registerNumber">Register Number</label>
+            <input type="text" id="registerNumber" name="registerNumber" required>
+        </div>
+        <div class="input-group">
+            <label for="standard">Standard</label>
+            <select id="standard" name="standard" required>
+                <option value="" disabled selected>Select Standard</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label for="division">Division</label>
+            <select id="division" name="division" required>
+                <option value="" disabled selected>Select Division</option>
+                <option value="CS">CS</option>
+                <option value="S">S</option>
+                <option value="H">H</option>
+                <option value="C">C</option>
+            </select>
+        </div>
+        <!-- Error message section -->
+        {{#if error}}
+        <div class="error-message" style="color: red; margin-bottom: 15px;">
+            {{error.message}}
+        </div>
+        {{/if}}
+        <button type="submit" class="button">Register Member</button>
+    </form>
+</div>
+<style>
+    /* Container styles */
+    .container {
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        border-radius: 8px;
+    }
+
+    .container h1 {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 24px;
+        color: #333;
+    }
+
+    /* Form styles */
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Input group styles */
+    .input-group {
+        margin-bottom: 15px;
+    }
+
+    .input-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 16px;
+        color: #555;
+    }
+
+    .input-group input,
+    .input-group select {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    .input-group input:focus,
+    .input-group select:focus {
+        border-color: red;
+        outline: none;
+    }
+
+    /* Button styles */
+    .button {
+        background-color: red;
+        color: #fff;
+        border: none;
+        padding: 15px;
+        font-size: 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .button:hover {
+        background-color: #005bb5;
+    }
+
+    /* Error message styles */
+    .error-message {
+        color: red;
+        font-size: 14px;
+    }
+</style>

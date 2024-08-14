@@ -1,0 +1,83 @@
+<footer>
+    <div class="fotLeft">
+        <span>This software is licensed under the <a href="https://github.com/grovixlab/katha/blob/main/LICENSE" target="_blank">MIT
+                License</a>.</span>
+    </div>
+    <div class="footRight">
+        <span>
+            This software is designed and developed by
+            <a href="https://grovixlab.com" target="_blank">
+                <img src="/img/grovix-lab.png" alt="Grovix Lab Logo">
+            </a>
+        </span>
+    </div>
+</footer>
+
+<style>
+    footer {
+        background-color: #f9f9f9;
+        /* Slightly lighter background for a cleaner look */
+        padding: 20px 30px;
+        /* Add some padding for better spacing */
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        /* More modern font */
+        font-size: 14px;
+        color: #555;
+        /* Softer text color */
+        border-top: 1px solid #ddd;
+        /* Subtle border on top */
+    }
+
+    .fotLeft,
+    .footRight {
+        display: flex;
+        align-items: center;
+    }
+
+    .fotLeft span,
+    .footRight span {
+        margin-right: 10px;
+    }
+
+    .fotLeft a,
+    .footRight a {
+        color: #0078e8;
+        /* Color for links */
+        text-decoration: none;
+    }
+
+    .fotLeft a:hover,
+    .footRight a:hover {
+        text-decoration: underline;
+        /* Underline on hover */
+    }
+
+    .footRight img {
+        height: 20px;
+        /* Keep the logo size consistent */
+        vertical-align: middle;
+    }
+
+    @media (max-width: 600px) {
+        footer {
+            flex-direction: column;
+            /* Stack content on small screens */
+            text-align: center;
+            /* Center text for better readability */
+        }
+
+        .fotLeft,
+        .footRight {
+            margin: 10px 0;
+            /* Add spacing between sections */
+        }
+
+        .footRight img {
+            margin-top: 5px;
+            /* Add some space above the logo */
+        }
+    }
+</style>
